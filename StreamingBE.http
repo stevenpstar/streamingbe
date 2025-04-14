@@ -1,0 +1,6 @@
+@StreamingBE_HostAddress = http://localhost:5105
+
+GET {{StreamingBE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
