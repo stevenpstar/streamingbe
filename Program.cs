@@ -1,10 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using StreamingBE.Data;
+using StreamingBE.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// DB Setup
+//
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+Console.WriteLine("Setting up Database Connection");
+builder.Services.AddDbContextPool<StreamingdevContext>(opt =>
+  opt.UseNpgsql(builder.Configuration.GetConnectionString("DevDB")));
+
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<IMovieService, MovieService>();
 
 var app = builder.Build();
 
@@ -15,6 +26,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthorization();
 
