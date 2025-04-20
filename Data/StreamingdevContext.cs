@@ -22,6 +22,8 @@ public partial class StreamingdevContext : DbContext
 
     public virtual DbSet<Series> Series { get; set; }
 
+    public virtual DbSet<Thumbnail> Thumbnails { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Episode>(entity =>
@@ -69,6 +71,23 @@ public partial class StreamingdevContext : DbContext
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
                 .HasColumnName("title");
+        });
+
+        modelBuilder.Entity<Thumbnail>(entity =>
+        {
+            entity.HasKey(e => e.Thumbid).HasName("thumbnails_pkey");
+
+            entity.ToTable("thumbnails");
+
+            entity.Property(e => e.Thumbid).HasColumnName("thumbid");
+            entity.Property(e => e.Filename)
+                .HasMaxLength(100)
+                .HasColumnName("filename");
+            entity.Property(e => e.Movieid).HasColumnName("movieid");
+
+            entity.HasOne(d => d.Movie).WithMany(p => p.Thumbnails)
+                .HasForeignKey(d => d.Movieid)
+                .HasConstraintName("thumbnails_movieid_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

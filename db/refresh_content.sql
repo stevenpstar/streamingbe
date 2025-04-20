@@ -2,6 +2,7 @@
 DROP TABLE IF EXISTS movies CASCADE;
 DROP TABLE IF EXISTS series CASCADE;
 DROP TABLE IF EXISTS episodes CASCADE;
+DROP TABLE IF EXISTS thumbnails CASCADE;
 
 -- Create tables
 CREATE TABLE movies (
@@ -21,3 +22,9 @@ CREATE TABLE episodes (
   episodeid serial PRIMARY KEY,
   seriesid integer references series(seriesid)
 );
+
+CREATE TABLE thumbnails (
+  thumbid serial PRIMARY KEY,
+  movieid integer references movies(movieid),
+  filename varchar(100)
+)

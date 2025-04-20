@@ -28,6 +28,17 @@ public class MoviesController : ControllerBase
         return movie;
     }
 
+    [HttpGet("{id}/thumbs")]
+    public async Task<IEnumerable<String>> GetThumbnails(int id) {
+      return await _service.GetThumbnails(id);
+    }
+
+ // Test endpoint
+    [HttpGet("{id}/thumbs/{thumbid}")]
+    public async Task<String> GetThumbnail(int id, int thumbid) {
+      return await _service.GetThumbnail(id, thumbid);
+    }
+
     [HttpGet("stream/{id}")]
     [ProducesResponseType(StatusCodes.Status206PartialContent)]
     public async Task<IActionResult> Stream(int id)

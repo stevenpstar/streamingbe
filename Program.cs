@@ -17,6 +17,14 @@ builder.Services.AddDbContextPool<StreamingdevContext>(opt =>
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IMovieService, MovieService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name:"FrontEndUI", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200/").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +32,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseCors("FrontEndUI");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -14,4 +14,6 @@ public partial class Movie
     public string? Filepath { get; set; }
 
     public string? Filetype { get; set; }
+
+    public virtual ICollection<Thumbnail> Thumbnails { get; set; } = new List<Thumbnail>();
 }
