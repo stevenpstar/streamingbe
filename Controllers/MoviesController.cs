@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StreamingBE.Models;
+using StreamingBE.DTO;
 
 namespace StreamingBE.Controllers;
 
@@ -37,6 +38,11 @@ public class MoviesController : ControllerBase
     [HttpGet("{id}/thumbs/{thumbid}")]
     public async Task<String> GetThumbnail(int id, int thumbid) {
       return await _service.GetThumbnail(id, thumbid);
+    }
+
+    [HttpGet("{id}/cast")]
+    public List<ActorDTO> GetCast(int id) {
+      return _service.GetCast(id);
     }
 
     [HttpGet("stream/{id}")]

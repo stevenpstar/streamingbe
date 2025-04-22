@@ -4,6 +4,36 @@ VALUES ('Keeper of the Bees', 'keeperposter.png', 'wwwroot/Assets/Keeper_of_the_
 INSERT INTO movies (title, poster, filepath, filetype)
 VALUES ('Nosferatu', 'nosferatuposter.png', 'wwwroot/Assets/Nosferatu.mpeg4', 'video/mpeg-4');
 
+-- Nosferatu Cast
+INSERT INTO actors (name, picture)
+  VALUES ('Max Schreck', 'wwwroot/Assets/nosferatu_cast/Max_Schreck_1922.jpg');
+
+INSERT INTO actors (name, picture)
+  VALUES ('Gustav von Wangenheim', 'wwwroot/Assets/nosferatu_cast/Gustav_von_Wangenheim_1922.jpg');
+
+INSERT INTO actors (name, picture)
+  VALUES ('Greta Schroeder', 'wwwroot/Assets/nosferatu_cast/GretaSchroeder1919.jpg');
+
+-- Create relations from Nosferatu movie to Cast
+
+INSERT INTO moviecast(movieid, actorid, charactername)
+VALUES (
+  (SELECT movieid FROM movies WHERE title = 'Nosferatu'),
+  (SELECT actorid FROM actors WHERE name = 'Max Schreck'),
+  'Graf Orlok');
+
+INSERT INTO moviecast(movieid, actorid, charactername)
+VALUES (
+  (SELECT movieid FROM movies WHERE title = 'Nosferatu'),
+  (SELECT actorid FROM actors WHERE name = 'Gustav von Wangenheim'),
+  'Hutter');
+
+INSERT INTO moviecast(movieid, actorid, charactername)
+VALUES (
+  (SELECT movieid FROM movies WHERE title = 'Nosferatu'),
+  (SELECT actorid FROM actors WHERE name = 'Greta Schroeder'),
+  'Ellen');
+
 -- Nosferatu Thumbnails
 
 INSERT INTO thumbnails (movieid, filename) VALUES (2, 'wwwroot/Assets/nosferatu_th/thumb_00001.jpeg');

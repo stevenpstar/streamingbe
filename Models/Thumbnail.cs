@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace StreamingBE.Models;
 
 public partial class Thumbnail

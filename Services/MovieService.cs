@@ -1,5 +1,6 @@
 using StreamingBE.Data;
 using StreamingBE.Models;
+using StreamingBE.DTO;
 using Microsoft.EntityFrameworkCore;
 namespace StreamingBE.Services;
 
@@ -19,6 +20,38 @@ public class MovieService : IMovieService
     public async Task<Movie?> GetMovie(int id)
     {
         return await _context.Movies.AsNoTracking().FirstOrDefaultAsync(p => p.Movieid == id);
+    }
+
+    public List<ActorDTO> GetCast(int movieid) {
+      List<ActorDTO> cast = new List<ActorDTO>();
+      var moviecast = _context.Moviecasts
+        .Include(t => t.Actor)
+        .Where(m => m.Movieid == movieid)
+        .ToList();
+
+      if (moviecast.Count > 0) {
+        foreach (var c in moviecast) {
+          if (c.Actor == null) {
+            return [];
+          }
+          if (c.Actor.Picture == null || c.Actor.Name == null || c.Charactername == null || c.Actor.Picture == null) {
+            continue;
+          }
+          var castPhoto = Path.Combine(Directory.GetCurrentDirectory(), c.Actor.Picture);
+          if (!System.IO.File.Exists(castPhoto)) {
+            continue;
+          }
+
+          var b64 = Convert.ToBase64String(File.ReadAllBytes(castPhoto));
+          cast.Add(new ActorDTO() {
+            Name = c.Actor.Name,
+            Character = c.Charactername,
+            PictureData = "data:image/png;base64," + b64,
+          });
+        }
+      }
+
+      return cast;
     }
 
     public async Task<IEnumerable<String>> GetThumbnails(int movieid) {
@@ -69,5 +102,6 @@ public class MovieService : IMovieService
       String b64 = Convert.ToBase64String(File.ReadAllBytes(thumbFile));
       return b64;
     }
+
 
 }

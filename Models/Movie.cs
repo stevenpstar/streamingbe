@@ -15,5 +15,7 @@ public partial class Movie
 
     public string? Filetype { get; set; }
 
+    public virtual ICollection<Moviecast> Moviecasts { get; set; } = new List<Moviecast>();
+
     public virtual ICollection<Thumbnail> Thumbnails { get; set; } = new List<Thumbnail>();
 }
